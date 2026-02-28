@@ -1,7 +1,21 @@
+import CheckWin.IsColumnWin;
+import CheckWin.IsDiagnalWin;
+import CheckWin.isRowWin;
+import CheckWin.isWinningBoard;
+
 public class PentagoBoard {
     private long whiteBoard;
     private long blackBoard;
     private long occupiedBoard;
+    private isWinningBoard[] isWinningBoard;
+
+    public PentagoBoard(){
+        isWinningBoard column = new IsColumnWin();
+        isWinningBoard row = new isRowWin();
+        isWinningBoard diagnal = new IsDiagnalWin();
+        isWinningBoard[] arr = {column, row, diagnal};
+        this.isWinningBoard = arr;
+    }
 
 
     public long getWhiteBoard() {
@@ -27,89 +41,14 @@ public class PentagoBoard {
         this.occupiedBoard = occupiedBoard;
     }
 
-    public Byte checkDiagnal(long board)
-    {
-        long diag1 = 0b100000010000001000000100000010000000L; //1,4
-        long diag2 = 0b10000001000000100000010000001L; //0,5
-        long diag3 = 0b100000010000001000000100000010L; //0,4
-        long diag4 = 0b10000001000000100000010000001000000L;//1,5
-        long diag5 = 0b10000100001000010000100000L; //0,0
-        long diag6 = 0b1000010000100001000010000000000L; //1,1
-        long diag7 = 0b10000100001000010000100000000000L; //1,0
-        long diag8 = 0b1000010000100001000010000L;// 0,1
-        long[] masks = { diag1, diag2, diag3, diag4, diag5, diag6,diag7,diag8 };
-        for (long mask : masks) {
-            if ((board & mask) == mask)
-            {
-                return 1;
-            }
-        }
-        return 0;
-    }
-    public Byte checkColumn(long board) {
-        long colMask;
-        long colMask2;
-        for (int col = 0; col <= 5; col++)
-        {
-            colMask = 0b1000001000001000001000001L << col;
-            colMask2 = 0b1000001000001000001000001000000L  << col;
-            if ((board & colMask) == colMask || (board & colMask2) == colMask2)
-            {
-                return 1;
-            }
-
-        }
-        return 0;
-    }
-    public Byte checkRow(long board)
-    {
-        long rowMask;
-        long rowMask2;
-        for (int col = 0; col <= 30; col+=6)
-        {
-            rowMask = 0b111110L << col;
-            rowMask2 = 0b11111L  << col;
-            if ((board & rowMask) == rowMask || (board & rowMask2) == rowMask2)
-            {
-                return 1;
-            }
-
-        }
-        return 0;
-    }
-    public boolean isFullBoard()
+    public boolean isFullBoard(long board)
     {
         long checkFull =  (1L << 36) - 1;
-        if ((occupiedBoard & checkFull ) == checkFull)
+        if ((board & checkFull ) == checkFull)
         {
             return true;
         }
         return false;
-    }
-    public Byte checkWin(long blackBoard, long whiteBoard)
-    {
-        if(isFullBoard())
-        {
-            return 3;
-        }
-        byte stat = 0;
-        if (checkDiagnal(blackBoard) == 1 || checkColumn(blackBoard) == 1 || checkRow(blackBoard) == 1)
-        {
-            stat = 1;
-        }
-        if (checkDiagnal(whiteBoard) == 1 || checkColumn(whiteBoard) == 1 || checkRow(whiteBoard) == 1)
-        {
-            if(stat == 1)
-            {
-                return 3;
-            }
-            return 2;
-        }
-        if(stat == 1)
-        {
-            return 1;
-        }
-        return 0;
     }
     public boolean checkLegal(int index)
     {
@@ -119,6 +58,37 @@ public class PentagoBoard {
         }
         return true;
     }
+
+    public Byte checkWin(long blackBoard, long whiteBoard)
+    {
+        if(isFullBoard(occupiedBoard))
+        {
+            return 3;
+        }
+        byte stat = 0;
+        for (isWinningBoard win_check: isWinningBoard){
+            if (win_check.checkWin(blackBoard) == 1)
+            {
+                stat = 1;
+            }
+        }
+        for (isWinningBoard win_check: isWinningBoard){
+            if (win_check.checkWin(whiteBoard) == 1)
+            {
+                if(stat == 1)
+                {
+                    return 3;
+                }
+                return 2;
+            }
+        }
+        if(stat == 1)
+        {
+            return 1;
+        }
+        return 0;
+    }
+
     public void updateBoard(int index, boolean isBlack) {
         long bitloc = 1L << index;
         occupiedBoard |= bitloc;
@@ -129,6 +99,7 @@ public class PentagoBoard {
             whiteBoard |= bitloc;
         }
     }
+    
     private long setBit(long board, int index, byte value) {
         return (board & ~(1L << index)) | ((long)value << index);
     }
@@ -147,6 +118,22 @@ public class PentagoBoard {
         board = setBit(board,inindixes[5],i1);
         board = setBit(board,inindixes[4],i3);
         return board;
+    }
+    public void printConsoleBoard(){
+        for (int index = 0; index < 6; index ++){
+            for (int jndex = 0; jndex < 6; jndex ++){
+                if(((getBlackBoard() >> (jndex + index * 6)) & 1) == 1){
+                    System.out.print('B');  
+                }
+                else if (((getWhiteBoard() >> (jndex + index * 6)) & 1) == 1) {
+                    System.out.print('W');  
+                }
+                else {
+                    System.out.print('-'); 
+                }
+            }
+            System.out.println(); 
+        }
     }
     public long rotateLeft(Long board,int[] inindixes)
     {

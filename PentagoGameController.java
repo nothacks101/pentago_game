@@ -1,3 +1,5 @@
+import CheckWin.isWinningBoard;
+
 public class PentagoGameController {
     private PentagoBoard board;
     private PentagoComp computer;
@@ -25,6 +27,15 @@ public class PentagoGameController {
         if(!gameOver)
         {
             int move = computer.makeMove(isBlackTurn);
+            if(isBlackTurn)
+            {
+                board.updateBoard(move, true);
+            }
+            else
+            {
+                board.updateBoard(move, false);
+            }
+            
             int rotation = computer.makeRotation(isBlackTurn);
             int rot, key;
             if(rotation % 2 == 0)
@@ -38,14 +49,6 @@ public class PentagoGameController {
                 key = (rotation+1)/2;
             }
 
-            if(isBlackTurn)
-            {
-                board.updateBoard(move, true);
-            }
-            else
-            {
-                board.updateBoard(move, false);
-            }
             board.updateRotaion(key,rot);
             winner = board.checkWin(board.getBlackBoard(), board.getWhiteBoard());
             if (winner != 0) {

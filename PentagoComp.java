@@ -12,26 +12,22 @@ public class PentagoComp
     public int makeMove(boolean isBlack) {
         long cboard = isBlack ? board.getBlackBoard() : board.getWhiteBoard();
         int winMove = findImmediateWin(cboard, isBlack);
-        System.out.println("wining move" + winMove);
         if (winMove != -1) {
             return winMove;
         }
 
         int winrot = winRotate(isBlack);
-        System.out.println("win with rotation" + winrot);
         if(winrot != -1)
         {
             return winrot;
         }
 
         int threatMove = findImmediateThreat(isBlack);
-        System.out.println("threat move" +threatMove);
         if (threatMove != -1) {
             return threatMove;
         }
 
         int loserot = loseRotate(isBlack);
-        System.out.println("lose with rotation" + loserot);
         if(loserot != -1)
         {
             return loserot;
@@ -43,7 +39,6 @@ public class PentagoComp
         }
 
         int three = threeGroup(isBlack);
-        System.out.println("three completer = " + three);
         if(three!=-1)
         {
             return three;
@@ -286,7 +281,6 @@ public class PentagoComp
 
     public int threeGroup(boolean isBlack)
     {
-        long cboard = isBlack ? board.getBlackBoard() : board.getWhiteBoard();
         Random rand = new Random();
 
         int[] checks = {1, 2};
@@ -316,27 +310,25 @@ public class PentagoComp
         long row1 = 0b110L;
         long row2 = 0b101L;
         long row3 = 0b011L;
-        long temp;
         int[] loc = new int[36];
         int count = -1;
         int chosen;
         Random random = new Random();
         for(int i = 0; i<= 33 ; i+=3)
         {
-            if((row1 & cboard) == row1 && (board.getOccupiedBoard() & row1) ==row1)
-            {
+            if((row1 & cboard) == row1 && (board.checkLegal(i))){
                 count++;
-                loc[count] =i;
+                loc[count] = i;
             }
-            if((row2 & cboard) == row2&& (board.getOccupiedBoard() & row2) ==row2)
+            if((row2 & cboard) == row2&& (board.checkLegal(i + 1)))
             {
                 count++;
-                loc[count] =i+1;
+                loc[count] = i+1;
             }
-            if((row3 & cboard) == row3&& (board.getOccupiedBoard() & row3) ==row3)
+            if((row3 & cboard) == row3 && (board.checkLegal(i + 2)))
             {
                 count++;
-                loc[count] =i+2;
+                loc[count] = i+2;
             }
             row1 = row1 << 3;
             row2 = row2 << 3;
@@ -347,6 +339,7 @@ public class PentagoComp
             return -1;
         }
         chosen = random.nextInt(count + 1);
+
         return loc[chosen];
     }
     public int threeCol(boolean isBlack)
@@ -376,7 +369,6 @@ public class PentagoComp
             }
             if((col3 & cboard) == col3&& (board.checkLegal(i+12)))
             {
-                System.out.println(i +" in col 3");
                 count++;
                 loc[count] =i+12;
             }
@@ -402,7 +394,6 @@ public class PentagoComp
             col5 = col5<<1;
             col6 = col6<<1;
         }
-        System.out.println("cols count is "+count);
         if (count == -1)
         {
             return -1;
@@ -528,27 +519,23 @@ public class PentagoComp
     public int makeRotation(boolean isBlack)
     {
         int winningRotation = findWinningRotation(isBlack);
-        System.out.println("win roate " + winningRotation);
         if (winningRotation != -1) {
             return winningRotation;
         }
 
         int threatRotation = findThreatRotation(isBlack);
-        System.out.println("lose roate " + threatRotation);
         if (threatRotation != -1) {
 
             return threatRotation;
         }
 
         int beneficial = findBeneficialRotation(isBlack);
-        System.out.println("ben rotate" +beneficial);
         if(beneficial != -1)
         {
             return beneficial;
         }
 
         int randomizer = randomRotation(isBlack);
-        System.out.println("ran roate " + randomizer);
         if (randomizer != -1) {
             return randomizer;
         }
@@ -568,15 +555,12 @@ public class PentagoComp
                 case 1:
 
                     index = checkbenRows(cboard, board.getOccupiedBoard(), isBlack);
-                    System.out.println("rows index :" + index);
                     break;
                 case 2:
                     index = checkbenColumns(cboard, board.getOccupiedBoard(), isBlack);
-                    System.out.println("cols index :" + index);
                     break;
                 case 3:
                     index = checkbenDiagonals(cboard, board.getOccupiedBoard(), isBlack);
-                    System.out.println("diag index :" + index);
                     break;
             }
             if (index != -1) {
@@ -599,7 +583,6 @@ public class PentagoComp
                 tempBoard.setOccupiedBoard(board.getOccupiedBoard());
                 tempBoard.updateRotaion(quadrant, rotation);
                 winstate = tempBoard.checkWin(tempBoard.getBlackBoard(), tempBoard.getWhiteBoard());
-                long cboard = isBlack ? tempBoard.getBlackBoard() : tempBoard.getWhiteBoard();
                 if ((isBlack && winstate == 1))
                 {
                     return (quadrant - 1) * 2 + rotation;
