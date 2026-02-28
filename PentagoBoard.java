@@ -119,6 +119,22 @@ public class PentagoBoard {
         board = setBit(board,inindixes[4],i3);
         return board;
     }
+    public void printConsoleBoard(){
+        for (int index = 0; index < 6; index ++){
+            for (int jndex = 0; jndex < 6; jndex ++){
+                if(((getBlackBoard() >> (jndex + index * 6)) & 1) == 1){
+                    System.out.print('B');  
+                }
+                else if (((getWhiteBoard() >> (jndex + index * 6)) & 1) == 1) {
+                    System.out.print('W');  
+                }
+                else {
+                    System.out.print('-'); 
+                }
+            }
+            System.out.println(); 
+        }
+    }
     public long rotateLeft(Long board,int[] inindixes)
     {
         Byte i1 = (byte) ((board >> inindixes[0]) & 1L);
