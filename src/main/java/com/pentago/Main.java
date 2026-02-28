@@ -1,3 +1,5 @@
+package src.main.java.com.pentago;
+
 
 
 public class Main {

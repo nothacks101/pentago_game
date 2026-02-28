@@ -1,3 +1,4 @@
+package src.main.java.com.pentago;
 import java.util.Random;
 
 public class PentagoComp

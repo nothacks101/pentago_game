@@ -1,4 +1,5 @@
-import CheckWin.isWinningBoard;
+package src.main.java.com.pentago;
+
 
 public class PentagoGameController {
     private PentagoBoard board;

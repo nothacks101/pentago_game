@@ -1,7 +1,9 @@
-import CheckWin.IsColumnWin;
-import CheckWin.IsDiagnalWin;
-import CheckWin.isRowWin;
-import CheckWin.isWinningBoard;
+package src.main.java.com.pentago;
+import src.main.java.com.pentago.CheckWin.IsColumnWin;
+import src.main.java.com.pentago.CheckWin.IsDiagnalWin;
+import src.main.java.com.pentago.CheckWin.isRowWin;
+import src.main.java.com.pentago.CheckWin.isWinningBoard;
+
 
 public class PentagoBoard {
     private long whiteBoard;
