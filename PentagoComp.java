@@ -28,26 +28,26 @@ public class PentagoComp
             System.out.println(); 
         }
 
-        System.out.println("wining move" + winMove);
+        System.out.println("wining move :" + winMove);
         if (winMove != -1) {
             return winMove;
         }
 
         int winrot = winRotate(isBlack);
-        System.out.println("win with rotation" + winrot);
+        System.out.println("win with rotation :" + winrot);
         if(winrot != -1)
         {
             return winrot;
         }
 
         int threatMove = findImmediateThreat(isBlack);
-        System.out.println("threat move" +threatMove);
+        System.out.println("threat move : " +threatMove);
         if (threatMove != -1) {
             return threatMove;
         }
 
         int loserot = loseRotate(isBlack);
-        System.out.println("lose with rotation" + loserot);
+        System.out.println("lose with rotation : " + loserot);
         if(loserot != -1)
         {
             return loserot;
@@ -549,6 +549,21 @@ public class PentagoComp
     //////////////////////////////////////////////////////////////////////////////////////////
     public int makeRotation(boolean isBlack)
     {
+        System.out.println("in rotation maker"); 
+        for (int index = 0; index < 6; index ++){
+            for (int jndex = 0; jndex < 6; jndex ++){
+                if(((board.getBlackBoard() >> (jndex + index * 6)) & 1) == 1){
+                    System.out.print('B');  
+                }
+                else if (((board.getWhiteBoard() >> (jndex + index * 6)) & 1) == 1) {
+                    System.out.print('W');  
+                }
+                else {
+                    System.out.print('-'); 
+                }
+            }
+            System.out.println(); 
+        }
         int winningRotation = findWinningRotation(isBlack);
         System.out.println("win roate " + winningRotation);
         if (winningRotation != -1) {
@@ -621,7 +636,7 @@ public class PentagoComp
                 tempBoard.setOccupiedBoard(board.getOccupiedBoard());
                 tempBoard.updateRotaion(quadrant, rotation);
                 winstate = tempBoard.checkWin(tempBoard.getBlackBoard(), tempBoard.getWhiteBoard());
-                long cboard = isBlack ? tempBoard.getBlackBoard() : tempBoard.getWhiteBoard();
+                System.out.println("win quardent : " + quadrant + " rotation : " + rotation + " win state : " + winstate); 
                 if ((isBlack && winstate == 1))
                 {
                     return (quadrant - 1) * 2 + rotation;
