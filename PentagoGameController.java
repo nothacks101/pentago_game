@@ -1,3 +1,5 @@
+import CheckWin.isWinningBoard;
+
 public class PentagoGameController {
     private PentagoBoard board;
     private PentagoComp computer;
