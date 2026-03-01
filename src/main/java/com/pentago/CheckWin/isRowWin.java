@@ -1,4 +1,4 @@
-package src.main.java.com.pentago.CheckWin;
+package com.pentago.CheckWin;
 
 public class isRowWin implements isWinningBoard {
     public Byte checkWin(long board)

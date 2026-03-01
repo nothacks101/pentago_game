@@ -1,4 +1,4 @@
-package src.main.java.com.pentago;
+package com.pentago;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;

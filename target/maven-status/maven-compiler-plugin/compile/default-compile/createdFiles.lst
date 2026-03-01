@@ -1,0 +1,9 @@
+com\pentago\CheckWin\isWinningBoard.class
+com\pentago\PentagoGameController.class
+com\pentago\CheckWin\IsDiagnalWin.class
+com\pentago\Main.class
+com\pentago\PentagoGUI.class
+com\pentago\CheckWin\IsColumnWin.class
+com\pentago\CheckWin\isRowWin.class
+com\pentago\PentagoBoard.class
+com\pentago\PentagoComp.class

@@ -1,4 +1,4 @@
-package src.main.java.com.pentago;
+package com.pentago;
 
 
 public class PentagoGameController {
