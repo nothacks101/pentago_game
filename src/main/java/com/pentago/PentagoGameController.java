@@ -9,9 +9,9 @@ public class PentagoGameController {
     private boolean gameOver;
     private Byte winner;
 
-    public PentagoGameController(boolean playerStartsFirst) {
-        this.board = new PentagoBoard();
-        this.computer = new PentagoComp(board);
+    public PentagoGameController(boolean playerStartsFirst, PentagoBoard board, PentagoComp computre) {
+        this.board = board;
+        this.computer = computre;
         this.playerTurn = playerStartsFirst;
         this.isBlackTurn = false;
         this.gameOver = false;
