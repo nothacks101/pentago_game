@@ -30,3 +30,17 @@ Write those Commands in terminal:
 
 1. Clone the repository:
    git clone https://github.com/nothacks101/pentago_game.git
+
+
+## Code
+- BitMap
+  to play with bitmap values, imagine the table like this:
+  0|1|2|3|4|5
+  ___________
+  6...
+
+  so if i want to add bit in index 3 i need to do
+  1 + (0 * index - 1)
+  or in this case
+  0b1000L (biscally like normal bitmap, you can google it)
+  
