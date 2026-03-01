@@ -17,16 +17,15 @@ To run this project, you need to have **Java** and **Maven** installed.
 ## Local-Run
 Please insure you have the following steps:
 - Download Maven: https://maven.apache.org/download.cgi
-  importent, download -bin.zip file under Binary zip archive + Link
-  add bin path of downloaded maven to your ENV VARIABLE PATH
+  - importent, download -bin.zip file under Binary zip archive + Link
+  - add bin path of downloaded maven to your ENV VARIABLE PATH
   
 - Download Java JDK: https://adoptium.net/
-  add C:\Program Files\Eclipse Adoptium\jdk-25.0.2.10-hotspot\bin to your ENV VARIABLE PATH
-  add JAVA_HOME - C:\Program Files\Eclipse Adoptium\jdk-25.0.2.10-hotspot to system variables in ENV VARIABLE
-
-Write those Commands in terminal:
-- mvn clean compile
-- mvn exec:java
+  - add C:\Program Files\Eclipse Adoptium\jdk-25.0.2.10-hotspot\bin to your ENV VARIABLE PATH
+  - add JAVA_HOME - C:\Program Files\Eclipse Adoptium\jdk-25.0.2.10-hotspot to system variables in ENV VARIABLE
 
 1. Clone the repository:
    git clone https://github.com/nothacks101/pentago_game.git
+2. Write those Commands in terminal:
+  - mvn clean compile
+  - mvn exec:java
