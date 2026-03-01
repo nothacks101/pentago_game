@@ -37,6 +37,9 @@ public class AdvancingColumnMove implements ComputerMoves  {
                 row_index_in_column++;
             }
         }
+        if (row_index_in_column == 0){
+            return -1;
+        }
         int chosen_cell_index = random.nextInt(row_index_in_column);
         return empty_cells_indexes[chosen_cell_index];
     }

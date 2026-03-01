@@ -21,7 +21,7 @@ public class AdvancingMove implements ComputerMoves {
         for (int index : shuffled_indexes) {
             int move = this.advancingMoves[index].getMovement(board, isBlack);
             if (move != -1) {
-                return index;
+                return move;
             }
         }
 

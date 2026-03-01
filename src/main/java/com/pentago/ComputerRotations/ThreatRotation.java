@@ -16,14 +16,14 @@ public class ThreatRotation implements ComputerRotations {
                 tempBoard.setWhiteBoard(board.getWhiteBoard());
                 tempBoard.setOccupiedBoard(board.getOccupiedBoard());
                 tempBoard.updateRotaion(quadrant, rotation);
-                if (isBlack && tempBoard.checkWin(tempBoard.getWhiteBoard(), tempBoard.getBlackBoard()) == 2)
+                if (isBlack && tempBoard.checkWin() == 2)
                 {
                     if(rotation == 1)
                     {
                         return (quadrant - 1) * 2 + 2;
                     }
                     return (quadrant - 1) * 2 + 1;
-                } else if (!isBlack && tempBoard.checkWin(tempBoard.getBlackBoard(), tempBoard.getWhiteBoard()) == 1)
+                } else if (!isBlack && tempBoard.checkWin() == 1)
                 {
                     if(rotation == 1)
                     {

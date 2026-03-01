@@ -16,7 +16,7 @@ public class WinningRotation implements ComputerRotations {
                 tempBoard.setWhiteBoard(board.getWhiteBoard());
                 tempBoard.setOccupiedBoard(board.getOccupiedBoard());
                 tempBoard.updateRotaion(quadrant, rotation);
-                winstate = tempBoard.checkWin(tempBoard.getBlackBoard(), tempBoard.getWhiteBoard());
+                winstate = tempBoard.checkWin();
                 if ((isBlack && winstate == 1)) //TODO check
                 {
                     return (quadrant - 1) * 2 + rotation;

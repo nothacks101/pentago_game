@@ -51,7 +51,7 @@ public class PentagoGameController {
             }
 
             board.updateRotaion(key,rot);
-            winner = board.checkWin(board.getBlackBoard(), board.getWhiteBoard());
+            winner = board.checkWin();
             if (winner != 0) {
                 gameOver = true;
             }
@@ -60,7 +60,7 @@ public class PentagoGameController {
         }
     }
     public boolean isGameOver() {
-        if(board.checkWin(board.getBlackBoard(), board.getWhiteBoard()) != 0)
+        if(board.checkWin() != 0)
         {
             gameOver = true;
         }
@@ -68,7 +68,7 @@ public class PentagoGameController {
     }
 
     public Byte getWinner() {
-        winner = board.checkWin(board.getBlackBoard(), board.getWhiteBoard());
+        winner = board.checkWin();
         return winner;
     }
 
@@ -100,7 +100,7 @@ public class PentagoGameController {
             {
                 board.updateBoard(index, false);
             }
-            winner = board.checkWin(board.getBlackBoard(), board.getWhiteBoard());
+            winner = board.checkWin();
             if (winner != 0) {
                 gameOver = true;
             }
@@ -112,7 +112,7 @@ public class PentagoGameController {
     }
     public void rotateBoard(int key, int rotate) {
         board.updateRotaion(key , rotate);
-        byte winStatus = board.checkWin(board.getBlackBoard(), board.getWhiteBoard());
+        byte winStatus = board.checkWin();
         if (winStatus != 0) {
             gameOver = true;
         }

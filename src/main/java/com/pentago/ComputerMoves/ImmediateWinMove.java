@@ -10,14 +10,22 @@ public class ImmediateWinMove implements ComputerMoves {
 
     public int getMovement(PentagoBoard board, boolean isBlack){
         logger.debug("in ImmediateWinMove");
-        long cboard = isBlack ? board.getBlackBoard() : board.getWhiteBoard();
-        long opponentBoard = isBlack ? board.getWhiteBoard() : board.getBlackBoard();
         for (int i = 0; i < 36; i++) {
             if (board.checkLegal(i)) {
-                long newBoardState = cboard | (1L << i);
-                int winCheck = board.checkWin(newBoardState, opponentBoard);
-
-                if ((isBlack && winCheck == 2) || (!isBlack && winCheck == 1)) {
+                PentagoBoard check = new PentagoBoard();
+                if (isBlack){
+                    check.setWhiteBoard(board.getWhiteBoard());
+                    check.setBlackBoard(board.getBlackBoard() | (1L << i));
+                } else {
+                    check.setWhiteBoard(board.getWhiteBoard() | (1L << i));
+                    check.setBlackBoard(board.getBlackBoard());
+                }
+                check.setOccupiedBoard(check.getBlackBoard() | check.getWhiteBoard());
+                int winCheck = check.checkWin();
+                if (winCheck != 0){
+                    logger.debug("win winstate is {} for index {}", winCheck, i);
+                }
+                if ((!isBlack && winCheck == 2) || (isBlack && winCheck == 1)) {
                     return i;
                 }
             }

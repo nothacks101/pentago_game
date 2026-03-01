@@ -3,6 +3,10 @@ import com.pentago.CheckWin.IsColumnWin;
 import com.pentago.CheckWin.IsDiagnalWin;
 import com.pentago.CheckWin.isRowWin;
 import com.pentago.CheckWin.isWinningBoard;
+import com.pentago.ComputerMoves.ImmediateWinMove;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class PentagoBoard {
@@ -10,6 +14,7 @@ public class PentagoBoard {
     private long blackBoard;
     private long occupiedBoard;
     private isWinningBoard[] isWinningBoard;
+    private static final Logger logger = LoggerFactory.getLogger(ImmediateWinMove.class);
 
     public PentagoBoard(){
         isWinningBoard column = new IsColumnWin();
@@ -61,21 +66,30 @@ public class PentagoBoard {
         return true;
     }
 
-    public Byte checkWin(long blackBoard, long whiteBoard)
+    public Byte checkWin()
     {
-        if(isFullBoard(occupiedBoard))
+        if(isFullBoard(this.getOccupiedBoard()))
         {
             return 3;
         }
         byte stat = 0;
         for (isWinningBoard win_check: isWinningBoard){
-            if (win_check.checkWin(blackBoard) == 1)
+            int win = win_check.checkWin(this.getBlackBoard());
+            if (win != 0){
+                logger.debug("black class {} result {}", win_check.getClass().getSimpleName(), win);
+            }
+            if (win == 1)
             {
                 stat = 1;
             }
         }
         for (isWinningBoard win_check: isWinningBoard){
-            if (win_check.checkWin(whiteBoard) == 1)
+            int win = win_check.checkWin(this.getWhiteBoard());
+            if (win != 0){
+                logger.debug("white class {} result {}", win_check.getClass().getSimpleName(), win);
+            }
+            
+            if (win == 1)
             {
                 if(stat == 1)
                 {
@@ -84,11 +98,7 @@ public class PentagoBoard {
                 return 2;
             }
         }
-        if(stat == 1)
-        {
-            return 1;
-        }
-        return 0;
+        return stat;
     }
 
     public void updateBoard(int index, boolean isBlack) {

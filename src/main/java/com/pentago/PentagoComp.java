@@ -23,6 +23,7 @@ public class PentagoComp
         int movement_index = -1;
         logger.info("in make move");
         logger.debug("board is : \n{}", this.board.getBoardInStr());
+        logger.debug("isblack is : {}", isBlack);
         for (ComputerMoves move: orderedComputerMoves){
             logger.debug("class {} in loop", move.getClass().getSimpleName());
             movement_index = move.getMovement(board, isBlack);
