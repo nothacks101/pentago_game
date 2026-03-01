@@ -3,9 +3,13 @@ package com.pentago.ComputerMoves;
 import java.util.Random;
 
 import com.pentago.PentagoBoard;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AdvancingDiagnalMove implements ComputerMoves{
+    private static final Logger logger = LoggerFactory.getLogger(AdvancingDiagnalMove.class);
     public int getMovement(PentagoBoard board, boolean isBlack){
+        logger.debug("in AdvancingDiagnalMove");
         long cboard = isBlack ? board.getWhiteBoard() : board.getBlackBoard(); 
         int[] diags = new int[6];
         int fitted_diags_count = 0;

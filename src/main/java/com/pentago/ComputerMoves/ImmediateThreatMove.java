@@ -1,9 +1,13 @@
 package com.pentago.ComputerMoves;
 
 import com.pentago.PentagoBoard;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ImmediateThreatMove implements ComputerMoves {
+    private static final Logger logger = LoggerFactory.getLogger(ImmediateThreatMove.class);
     public int getMovement(PentagoBoard board, boolean isBlack){
+        logger.debug("in ImmediateThreatMove");
         long opponentBoard = isBlack ? board.getWhiteBoard() : board.getBlackBoard();
         long playerBoard = isBlack ? board.getBlackBoard() : board.getWhiteBoard();
         long newOpponentBoard;

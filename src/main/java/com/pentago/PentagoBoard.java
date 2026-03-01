@@ -137,6 +137,23 @@ public class PentagoBoard {
             System.out.println(); 
         }
     }
+    public String getBoardInStr() {
+        StringBuilder str_board = new StringBuilder();
+
+        for (int index = 0; index < 6; index++) {
+            for (int jndex = 0; jndex < 6; jndex++) {
+                if (((getBlackBoard() >> (jndex + index * 6)) & 1) == 1) {
+                    str_board.append('B');  
+                } else if (((getWhiteBoard() >> (jndex + index * 6)) & 1) == 1) {
+                    str_board.append('W'); 
+                } else {
+                    str_board.append('-'); 
+                }
+            }
+            str_board.append('\n');  
+        }
+        return str_board.toString(); 
+    }
     public long rotateLeft(Long board,int[] inindixes)
     {
         Byte i1 = (byte) ((board >> inindixes[0]) & 1L);

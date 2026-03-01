@@ -1,9 +1,13 @@
 package com.pentago.ComputerRotations;
 
 import com.pentago.PentagoBoard;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class WinningRotation implements ComputerRotations {
+    private static final Logger logger = LoggerFactory.getLogger(WinningRotation.class);
     public int getRotation(PentagoBoard board, boolean isBlack){
+        logger.debug("in WinningRotation");
         Byte winstate =0;
         for (int quadrant = 1; quadrant <= 4; quadrant++) {
             for (int rotation = 1; rotation <= 2; rotation++) {

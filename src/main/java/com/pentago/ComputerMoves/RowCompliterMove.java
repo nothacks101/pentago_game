@@ -3,9 +3,13 @@ package com.pentago.ComputerMoves;
 import java.util.Random;
 
 import com.pentago.PentagoBoard;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class RowCompliterMove implements ComputerMoves {
+    private static final Logger logger = LoggerFactory.getLogger(RowCompliterMove.class);
     public int getMovement(PentagoBoard board, boolean isBlack){
+        logger.debug("in RowCompliterMove");
         long cboard = isBlack ? board.getBlackBoard() : board.getWhiteBoard();
         long row1 = 0b110L;
         long row2 = 0b101L;

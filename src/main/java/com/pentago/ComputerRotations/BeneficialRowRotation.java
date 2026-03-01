@@ -4,11 +4,15 @@ import java.util.Random;
 
 import com.pentago.PentagoBoard;
 import com.pentago.ComputerScripts.BestRotationForPattern;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BeneficialRowRotation implements ComputerRotations {
+    private static final Logger logger = LoggerFactory.getLogger(BeneficialRowRotation.class);
     private BestRotationForPattern bestRotationForPattern = new BestRotationForPattern();
     
     public int getRotation(PentagoBoard board, boolean isBlack){
+        logger.debug("in BeneficialRowRotation");
         long cboard = isBlack ? board.getWhiteBoard() : board.getBlackBoard(); 
         long rowMask = 0b111111;
         int[] beneficial_rows = new int[6];

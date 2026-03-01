@@ -3,9 +3,13 @@ package com.pentago.ComputerRotations;
 import java.util.Random;
 
 import com.pentago.PentagoBoard;
+import com.pentago.ComputerMoves.RotateWinMove;
 import com.pentago.ComputerScripts.BestRotationForPattern;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BeneficialColumnRotation implements ComputerRotations {
+    private static final Logger logger = LoggerFactory.getLogger(BeneficialColumnRotation.class);
     private BestRotationForPattern bestRotationForPattern = new BestRotationForPattern();
     
     public int getRotation(PentagoBoard board, boolean isBlack){

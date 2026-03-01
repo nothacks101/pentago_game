@@ -3,12 +3,16 @@ package com.pentago.ComputerRotations;
 import com.pentago.PentagoBoard;
 import com.pentago.ComputerScripts.BestRotationForPattern;
 import com.pentago.RandomScripts.ShuffleArr;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BeneficialDiagnaRotation implements ComputerRotations {
+    private static final Logger logger = LoggerFactory.getLogger(BeneficialDiagnaRotation.class);
     private BestRotationForPattern bestRotationForPattern = new BestRotationForPattern();
     private ShuffleArr shuffleArr = new ShuffleArr();
     
     public int getRotation(PentagoBoard board, boolean isBlack){
+        logger.debug("in BeneficialDiagnaRotation");
         long cboard = isBlack ? board.getWhiteBoard() : board.getBlackBoard();
         long diag1 = 0b100000010000001000000100000010L; //0,4
         long diag2 = 0b100000010000001000000100000010000001L; //0,5

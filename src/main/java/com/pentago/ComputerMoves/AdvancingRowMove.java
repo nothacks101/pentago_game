@@ -3,9 +3,13 @@ package com.pentago.ComputerMoves;
 import java.util.Random;
 
 import com.pentago.PentagoBoard;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AdvancingRowMove implements ComputerMoves {
+    private static final Logger logger = LoggerFactory.getLogger(AdvancingRowMove.class);
     public int getMovement(PentagoBoard board, boolean isBlack){
+        logger.debug("in AdvancingRowMove");
         long cboard = isBlack ? board.getWhiteBoard() : board.getBlackBoard(); 
         int[] rows = new int[6];
         int fitted_row_count = 0;

@@ -3,9 +3,13 @@ package com.pentago.ComputerMoves;
 import java.util.Random;
 
 import com.pentago.PentagoBoard;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AdvancingColumnMove implements ComputerMoves  {
+    private static final Logger logger = LoggerFactory.getLogger(AdvancingColumnMove.class);
     public int getMovement(PentagoBoard board, boolean isBlack){
+        logger.debug("in AdvancingColumnMove");
         long cboard = isBlack ? board.getWhiteBoard() : board.getBlackBoard(); 
         int[] cols = new int[6];
         int fitted_column_count = 0;
