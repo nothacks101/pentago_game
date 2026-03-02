@@ -21,6 +21,7 @@ import com.pentago.ComputerRotations.BeneficialRotation;
 import com.pentago.ComputerRotations.BeneficialRowRotation;
 import com.pentago.ComputerRotations.ComputerRotations;
 import com.pentago.ComputerRotations.LosingInNextMoveRotation;
+import com.pentago.ComputerRotations.LosingInNextTurnRotation;
 import com.pentago.ComputerRotations.RandomRotation;
 import com.pentago.ComputerRotations.ThreatRotation;
 import com.pentago.ComputerRotations.WinningRotation;
@@ -48,14 +49,15 @@ public class Main {
 
         ComputerRotations win_rot = new WinningRotation();
         ComputerRotations threat_rot = new ThreatRotation();
-        ComputerRotations threat_after_turn = new LosingInNextMoveRotation();
+        ComputerRotations threat_after_move = new LosingInNextMoveRotation();
+        ComputerRotations threat_after_turn = new LosingInNextTurnRotation();
         ComputerRotations ben_row_rot = new BeneficialRowRotation();
         ComputerRotations ben_col_rot = new BeneficialColumnRotation();
         ComputerRotations ben_diag_rot = new BeneficialDiagnaRotation();
         ComputerRotations[] ben_rot_list = {ben_row_rot, ben_col_rot, ben_diag_rot};
         ComputerRotations ben_rot = new BeneficialRotation(ben_rot_list);
         ComputerRotations rand_rot = new RandomRotation();
-        ComputerRotations[] ordered_computer_rotations = {win_rot, threat_rot, threat_after_turn, ben_rot, rand_rot};
+        ComputerRotations[] ordered_computer_rotations = {win_rot, threat_rot, threat_after_move, threat_after_turn, ben_rot, rand_rot};
 
         PentagoBoard board = new PentagoBoard();
         PentagoComp computre = new PentagoComp(board, ordered_computer_rotations, ordered_computer_moves);

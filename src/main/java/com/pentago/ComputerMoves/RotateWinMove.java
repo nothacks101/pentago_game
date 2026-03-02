@@ -25,6 +25,7 @@ public class RotateWinMove implements ComputerMoves {
                 tempBoard.setOccupiedBoard(board.getOccupiedBoard());
                 tempBoard.updateRotaion(quadrant, rotation);
                 win_index = immediateWinMove.getMovement(tempBoard, isBlack);
+                
                 if (win_index != -1) {
                     if (rotation == 1) {
                         index = right[win_index];

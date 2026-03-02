@@ -5,7 +5,8 @@ import com.pentago.PentagoBoard;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ImmediateWinMove implements ComputerMoves {
+public class 
+ImmediateWinMove implements ComputerMoves {
     private static final Logger logger = LoggerFactory.getLogger(ImmediateWinMove.class);
 
     public int getMovement(PentagoBoard board, boolean isBlack){
@@ -23,7 +24,7 @@ public class ImmediateWinMove implements ComputerMoves {
                 check.setOccupiedBoard(check.getBlackBoard() | check.getWhiteBoard());
                 int winCheck = check.checkWin();
                 if (winCheck != 0){
-                    logger.debug("win winstate is {} for index {}", winCheck, i);
+                    logger.debug("win winstate is {} for index {}, isblack is {}", winCheck, i, isBlack);
                 }
                 if ((!isBlack && winCheck == 2) || (isBlack && winCheck == 1)) {
                     return i;
