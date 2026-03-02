@@ -43,4 +43,11 @@ Write those Commands in terminal:
   1 + (0 * index - 1)
   or in this case
   0b1000L (biscally like normal bitmap, you can google it)
+
+- Board
+  6*6 bitmap that is splitted to 3*3, subboard index:
+  2|1
+  --
+  3|4
+  for manual user imput
   
