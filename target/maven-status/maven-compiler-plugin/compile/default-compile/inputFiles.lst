@@ -20,6 +20,7 @@ C:\Users\Owner\Desktop\OfirMen\pentago_game\src\main\java\com\pentago\ComputerRo
 C:\Users\Owner\Desktop\OfirMen\pentago_game\src\main\java\com\pentago\ComputerRotations\BeneficialRotation.java
 C:\Users\Owner\Desktop\OfirMen\pentago_game\src\main\java\com\pentago\ComputerRotations\BeneficialRowRotation.java
 C:\Users\Owner\Desktop\OfirMen\pentago_game\src\main\java\com\pentago\ComputerRotations\ComputerRotations.java
+C:\Users\Owner\Desktop\OfirMen\pentago_game\src\main\java\com\pentago\ComputerRotations\LosingInNextMoveRotation.java
 C:\Users\Owner\Desktop\OfirMen\pentago_game\src\main\java\com\pentago\ComputerRotations\RandomRotation.java
 C:\Users\Owner\Desktop\OfirMen\pentago_game\src\main\java\com\pentago\ComputerRotations\ThreatRotation.java
 C:\Users\Owner\Desktop\OfirMen\pentago_game\src\main\java\com\pentago\ComputerRotations\WinningRotation.java

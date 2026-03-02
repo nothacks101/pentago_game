@@ -11,13 +11,13 @@ public class FindQuadrant {
             return 1;
         } else if (row < 3 && col < 3)
         {
-            return 2;
+            return 4;
         } else if (row >= 3 && col < 3)
         {
             return 3;
         } else
         {
-            return 4;
+            return 2;
         }
     }
 }

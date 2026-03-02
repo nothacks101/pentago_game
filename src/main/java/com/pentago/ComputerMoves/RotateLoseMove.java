@@ -24,12 +24,14 @@ public class RotateLoseMove implements ComputerMoves{
                 tempBoard.setOccupiedBoard(board.getOccupiedBoard());
                 tempBoard.updateRotaion(quadrant, rotation);
 
-                lose_index = immediateThreatMove.getMovement(tempBoard, isBlack);
+                lose_index = this.immediateThreatMove.getMovement(tempBoard, isBlack);
+
                 if (lose_index != -1) {
+                    logger.debug("rotation is {} quardent is {}, loseindex is {}", rotation, quadrant, lose_index);
                     if (rotation == 1) {
-                        index = right[lose_index];
-                    } else {
                         index = left[lose_index];
+                    } else {
+                        index = right[lose_index];
                     }
                     if (findQuadrant.find(index) != quadrant) {
                         return lose_index;

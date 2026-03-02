@@ -1,3 +1,4 @@
+com\pentago\ComputerRotations\LosingInNextMoveRotation.class
 com\pentago\ComputerMoves\ColumnCompliterMove.class
 com\pentago\ComputerMoves\ComputerMoves.class
 com\pentago\PentagoGameController.class
