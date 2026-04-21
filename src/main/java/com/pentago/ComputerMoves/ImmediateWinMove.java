@@ -13,15 +13,9 @@ ImmediateWinMove implements ComputerMoves {
         logger.debug("in ImmediateWinMove");
         for (int i = 0; i < 36; i++) {
             if (board.checkLegal(i)) {
-                PentagoBoard check = new PentagoBoard();
-                if (isBlack){
-                    check.setWhiteBoard(board.getWhiteBoard());
-                    check.setBlackBoard(board.getBlackBoard() | (1L << i));
-                } else {
-                    check.setWhiteBoard(board.getWhiteBoard() | (1L << i));
-                    check.setBlackBoard(board.getBlackBoard());
-                }
-                check.setOccupiedBoard(check.getBlackBoard() | check.getWhiteBoard());
+                PentagoBoard check = board.copyBoard();
+                check.updateBoard(i, isBlack);
+
                 int winCheck = check.checkWin();
                 if (winCheck != 0){
                     logger.debug("win winstate is {} for index {}, isblack is {}", winCheck, i, isBlack);

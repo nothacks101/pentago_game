@@ -18,10 +18,7 @@ public class RotateLoseMove implements ComputerMoves{
         int index;
         for (int quadrant = 1; quadrant <= 4; quadrant++) {
             for (int rotation = 1; rotation <= 2; rotation++) {
-                PentagoBoard tempBoard = new PentagoBoard();
-                tempBoard.setBlackBoard(board.getBlackBoard());
-                tempBoard.setWhiteBoard(board.getWhiteBoard());
-                tempBoard.setOccupiedBoard(board.getOccupiedBoard());
+                PentagoBoard tempBoard = board.copyBoard();
                 tempBoard.updateRotaion(quadrant, rotation);
 
                 lose_index = this.immediateThreatMove.getMovement(tempBoard, isBlack);

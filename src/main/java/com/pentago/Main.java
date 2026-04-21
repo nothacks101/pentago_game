@@ -1,20 +1,8 @@
 package  com.pentago;
+import com.pentago.ComputerMoves.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.pentago.ComputerMoves.AdvancingColumnMove;
-import com.pentago.ComputerMoves.AdvancingDiagnalMove;
-import com.pentago.ComputerMoves.AdvancingMove;
-import com.pentago.ComputerMoves.AdvancingRowMove;
-import com.pentago.ComputerMoves.CenterMove;
-import com.pentago.ComputerMoves.ColumnCompliterMove;
-import com.pentago.ComputerMoves.ComputerMoves;
-import com.pentago.ComputerMoves.ImmediateThreatMove;
-import com.pentago.ComputerMoves.ImmediateWinMove;
-import com.pentago.ComputerMoves.RotateLoseMove;
-import com.pentago.ComputerMoves.RotateWinMove;
-import com.pentago.ComputerMoves.RowCompliterMove;
-import com.pentago.ComputerMoves.ThreeCompliterMove;
 import com.pentago.ComputerRotations.BeneficialColumnRotation;
 import com.pentago.ComputerRotations.BeneficialDiagnaRotation;
 import com.pentago.ComputerRotations.BeneficialRotation;
@@ -40,12 +28,15 @@ public class Main {
         ComputerMoves col_complite = new ColumnCompliterMove();
         ComputerMoves[] three_complite_list = {row_complite, col_complite};
         ComputerMoves three_complite = new ThreeCompliterMove(three_complite_list);
-        ComputerMoves row_adv = new AdvancingRowMove();
-        ComputerMoves col_adv = new AdvancingColumnMove();
-        ComputerMoves diag_adv = new AdvancingDiagnalMove();
-        ComputerMoves[] adv_move_list = {row_adv, col_adv, diag_adv};
-        ComputerMoves adv_move = new AdvancingMove(adv_move_list);
-        ComputerMoves[] ordered_computer_moves = {imm_win, rotate_win, imm_threat, rotate_threat, center_move, three_complite, adv_move};
+
+        //ComputerMoves row_adv = new AdvancingRowMove();
+        //ComputerMoves col_adv = new AdvancingColumnMove();
+        //ComputerMoves diag_adv = new AdvancingDiagnalMove();
+        //ComputerMoves[] adv_move_list = {row_adv, col_adv, diag_adv};
+        //ComputerMoves adv_move = new AdvancingMove(adv_move_list);
+
+        ComputerMoves move_evaluator = new RotateEvaluatedMove();
+        ComputerMoves[] ordered_computer_moves = {imm_win, rotate_win, imm_threat, rotate_threat, center_move, three_complite, move_evaluator};
 
         ComputerRotations win_rot = new WinningRotation();
         ComputerRotations threat_rot = new ThreatRotation();
@@ -57,6 +48,7 @@ public class Main {
         ComputerRotations[] ben_rot_list = {ben_row_rot, ben_col_rot, ben_diag_rot};
         ComputerRotations ben_rot = new BeneficialRotation(ben_rot_list);
         ComputerRotations rand_rot = new RandomRotation();
+
         ComputerRotations[] ordered_computer_rotations = {win_rot, threat_rot, threat_after_move, threat_after_turn, ben_rot, rand_rot};
 
         PentagoBoard board = new PentagoBoard();

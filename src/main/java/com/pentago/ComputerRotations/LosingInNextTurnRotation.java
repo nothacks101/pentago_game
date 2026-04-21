@@ -14,10 +14,7 @@ public class LosingInNextTurnRotation implements ComputerRotations{
         logger.debug("in LosingInNextTurnRotation");
         for (int quadrant = 1; quadrant <= 4; quadrant++) {
             for (int rotation = 1; rotation <= 2; rotation++) {
-                PentagoBoard tempBoard = new PentagoBoard();
-                tempBoard.setBlackBoard(board.getBlackBoard());
-                tempBoard.setWhiteBoard(board.getWhiteBoard());
-                tempBoard.setOccupiedBoard(board.getOccupiedBoard());
+                PentagoBoard tempBoard = board.copyBoard();
                 tempBoard.updateRotaion(quadrant, rotation);
                 if (this.rotateLoseMove.getMovement(tempBoard, isBlack) != -1)
                 {

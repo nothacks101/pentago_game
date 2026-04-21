@@ -1,6 +1,6 @@
 package com.pentago;
 import com.pentago.CheckWin.IsColumnWin;
-import com.pentago.CheckWin.IsDiagnalWin;
+import com.pentago.CheckWin.IsDiagonalWin;
 import com.pentago.CheckWin.isRowWin;
 import com.pentago.CheckWin.isWinningBoard;
 import com.pentago.ComputerMoves.ImmediateWinMove;
@@ -19,8 +19,8 @@ public class PentagoBoard {
     public PentagoBoard(){
         isWinningBoard column = new IsColumnWin();
         isWinningBoard row = new isRowWin();
-        isWinningBoard diagnal = new IsDiagnalWin();
-        isWinningBoard[] arr = {column, row, diagnal};
+        isWinningBoard diagonal = new IsDiagonalWin();
+        isWinningBoard[] arr = {column, row, diagonal};
         this.isWinningBoard = arr;
     }
 
@@ -65,7 +65,13 @@ public class PentagoBoard {
         }
         return true;
     }
-
+    public PentagoBoard copyBoard(){
+        PentagoBoard tempBoard = new PentagoBoard();
+        tempBoard.setBlackBoard(getBlackBoard());
+        tempBoard.setWhiteBoard(getWhiteBoard());
+        tempBoard.setOccupiedBoard(getOccupiedBoard());
+        return tempBoard;
+    }
     public Byte checkWin()
     {
         if(isFullBoard(this.getOccupiedBoard()))

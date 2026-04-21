@@ -3,7 +3,7 @@ package com.pentago.LineEvaluator;
 import com.pentago.PentagoBoard;
 
 public class MasksEvaluator {
-    private LineValue lineValue = new LineValue();
+    private final LineValue lineValue = new LineValue();
     
     public int evaluate(PentagoBoard board, boolean isBlack, long[] masks){
         long cboard = isBlack ? board.getWhiteBoard() : board.getBlackBoard(); 
@@ -15,6 +15,9 @@ public class MasksEvaluator {
 
             if (player_count == 0) {   
                 score += lineValue.getValue(computer_count);
+            }
+            if (computer_count == 0){
+                score -= lineValue.getValue(player_count);
             }
         }
         return score;

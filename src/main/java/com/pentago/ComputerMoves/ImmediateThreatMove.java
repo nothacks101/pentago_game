@@ -10,15 +10,9 @@ public class ImmediateThreatMove implements ComputerMoves {
         logger.debug("in ImmediateThreatMove");
         for (int i = 0; i < 36; i++) {
             if (board.checkLegal(i)) {
-                PentagoBoard check = new PentagoBoard();
-                if (isBlack){
-                    check.setWhiteBoard(board.getWhiteBoard() | (1L << i));
-                    check.setBlackBoard(board.getBlackBoard());
-                } else {
-                    check.setWhiteBoard(board.getWhiteBoard());
-                    check.setBlackBoard(board.getBlackBoard() | (1L << i));
-                }
-                check.setOccupiedBoard(check.getBlackBoard() | check.getWhiteBoard());
+                PentagoBoard check = board.copyBoard();
+                check.updateBoard(i, !isBlack);
+
                 int winCheck = check.checkWin();
 
                 if (winCheck != 0){

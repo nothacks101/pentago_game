@@ -3,10 +3,9 @@ package com.pentago.LineEvaluator;
 import com.pentago.Const;
 import com.pentago.PentagoBoard;
 
-public class RowEvaluator extends MasksEvaluator implements LineEvalutor{
+public class DiagonalEvaluator extends MasksEvaluator implements LineEvalutor{
 
     public int evaluate(PentagoBoard board, boolean isBlack){
-        return super.evaluate(board, isBlack, Const.FIVE_IN_ROW);
+        return super.evaluate(board, isBlack, Const.FIVE_IN_DIAGONAL);
     }
-
 }

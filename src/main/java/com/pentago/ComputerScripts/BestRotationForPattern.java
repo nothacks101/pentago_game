@@ -7,10 +7,7 @@ public class BestRotationForPattern {
         long cboard = isBlack ? board.getWhiteBoard() : board.getBlackBoard(); 
         for (int quadrant = 1; quadrant <= 4; quadrant++) {
             for (int rotation = 1; rotation <= 2; rotation++) {
-                PentagoBoard tempBoard = new PentagoBoard();
-                tempBoard.setBlackBoard(board.getBlackBoard());
-                tempBoard.setWhiteBoard(board.getWhiteBoard());
-                tempBoard.setOccupiedBoard(board.getOccupiedBoard());
+                PentagoBoard tempBoard = board.copyBoard();
                 tempBoard.updateRotaion(quadrant, rotation);
 
                 long newCboard = isBlack ? tempBoard.getBlackBoard() : tempBoard.getWhiteBoard();
