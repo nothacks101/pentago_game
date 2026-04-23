@@ -2,29 +2,41 @@ package com.pentago.ComputerMoves;
 
 import com.pentago.LineEvaluator.BoardEvaluator;
 import com.pentago.PentagoBoard;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class RotateEvaluatedMove  implements ComputerMoves{
+    private static final Logger logger = LoggerFactory.getLogger(RotateEvaluatedMove.class);
     private BoardEvaluator evaluator = new BoardEvaluator();
-    private EvaluatedMove evaluatedMove = new EvaluatedMove();
 
     @Override
-    public int getMovement(PentagoBoard board, boolean isBlack) {
-        int chosen_move = 0;
-        int best_score = 0;
-        for (int quadrant = 1; quadrant <= 4; quadrant++) {
-            for (int rotation = 1; rotation <= 2; rotation++) {
-                PentagoBoard tempBoard = board.copyBoard();
-                tempBoard.updateRotaion(quadrant, rotation);
-                int best_move = evaluatedMove.getMovement(tempBoard, isBlack);
-                tempBoard.updateBoard(best_move, !isBlack);
-                int score = evaluator.evaluate(tempBoard, isBlack);
-                if (score > best_score){
-                    best_score = score;
-                    chosen_move = best_move;
+    public Move getMovement(PentagoBoard board, boolean isPlayerBlack) {
+
+        Move bestMove = null;
+        int bestScore = Integer.MIN_VALUE;
+
+        for (int pos = 0; pos < 36; pos++) {
+            if (!board.checkLegal(pos)) continue;
+
+            for (int q = 1; q <= 4; q++) {
+                for (int cw = 0; cw <= 1; cw++) {
+
+                    PentagoBoard temp = board.copyBoard();
+                    temp.updateBoard(pos, isPlayerBlack);
+                    temp.updateRotation(q, cw == 1);
+
+                    int score = evaluator.evaluate(temp, isPlayerBlack);
+
+                    if (score > bestScore) {
+                        logger.debug("found new best score with values : \n score: {}, pos: {}, q: {}, clockwise: {}",
+                                score, pos, q, cw == 1);
+                        bestScore = score;
+                        bestMove = new Move(pos, q, cw == 1);
+                    }
                 }
             }
         }
-        return chosen_move;
+       return bestMove;
     }
 }
 

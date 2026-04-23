@@ -1,0 +1,7 @@
+package com.pentago.View;
+
+import com.pentago.PentagoBoard;
+
+public interface GameView {
+    void updateView(PentagoBoard board, boolean isWhiteTurn);
+}

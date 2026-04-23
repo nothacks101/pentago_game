@@ -1,127 +1,88 @@
 package com.pentago;
 
 
+import com.pentago.CheckWin.IsDiagonalWin;
+import com.pentago.ComputerMoves.Move;
+import com.pentago.Enums.BoardStatus;
+import com.pentago.View.GameView;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class PentagoGameController {
+    private static final Logger logger = LoggerFactory.getLogger(IsDiagonalWin.class);
     private PentagoBoard board;
     private PentagoComp computer;
-    private boolean isBlackTurn;
-    private boolean playerTurn;
+    private boolean isPlayerBlack;
+    private boolean isWhiteTurn;
     private boolean gameOver;
-    private Byte winner;
+    private GameView view;
 
-    public PentagoGameController(boolean playerStartsFirst, PentagoBoard board, PentagoComp computre) {
+    public void setView(GameView view){
+        this.view = view;
+    }
+    public PentagoGameController(boolean playerStartsFirst, PentagoBoard board,
+                                 PentagoComp computer, GameView view) {
         this.board = board;
-        this.computer = computre;
-        this.playerTurn = playerStartsFirst;
-        this.isBlackTurn = false;
+        this.computer = computer;
+        this.isWhiteTurn = true;
+        this.isPlayerBlack = !playerStartsFirst;
         this.gameOver = false;
-        winner=0;
-
+        this.view = view;
+    }
+    public void startGame() {
+        view.updateView(board, isWhiteTurn);
+        if (isPlayerBlack == isWhiteTurn) {
+            computerTurn();
+        }
     }
 
-    public boolean isPlayerTurn() {
-        return playerTurn;
-    }
 
     public void computerTurn()
     {
         if(!gameOver)
         {
-            int move = computer.makeMove(isBlackTurn);
-            if(isBlackTurn)
-            {
-                board.updateBoard(move, true);
-            }
-            else
-            {
-                board.updateBoard(move, false);
-            }
-            
-            int rotation = computer.makeRotation(isBlackTurn);
-            int rot, key;
-            if(rotation % 2 == 0)
-            {
-                rot = 2;
-                key = rotation/2;
-            }
-            else
-            {
-                rot = 1;
-                key = (rotation+1)/2;
-            }
+            Move movement = computer.makeMove(this.board, this.isWhiteTurn);
+            this.board.updateBoard(movement.position, isPlayerBlack);
+            this.board.updateRotation(movement.rotation.quadrant, movement.rotation.clockwise);
 
-            board.updateRotaion(key,rot);
-            winner = board.checkWin();
-            if (winner != 0) {
-                gameOver = true;
+            if (this.board.checkWin() != BoardStatus.RUNNING) {
+                this.gameOver = true;
             }
-            playerTurn = true;
-            isBlackTurn = !isBlackTurn;
+            this.isWhiteTurn = !this.isWhiteTurn;
+            this.view.updateView(this.board, this.isWhiteTurn);
         }
     }
-    public boolean isGameOver() {
-        if(board.checkWin() != 0)
-        {
-            gameOver = true;
-        }
-        return gameOver;
-    }
-
-    public Byte getWinner() {
-        winner = board.checkWin();
-        return winner;
-    }
-
-    public boolean isBlackTurn() {
-        return isBlackTurn;
-    }
-    public String getCurrentPlayer() {
-        return isBlackTurn ? "Black" : "White";
-    }
 
 
-    public PentagoBoard getBoard() {
-        return board;
-    }
 
-    public boolean makeMove(int row, int col)
+
+    public boolean playerMakeMove(int row, int col)
     {
-        if(playerTurn & !gameOver)
+        logger.debug("here 1");
+        if(isPlayerBlack == !isWhiteTurn & !gameOver)
         {
             int index = row * 6 + col;
             if (!board.checkLegal(index)) {
                 return false;
             }
-            if(isBlackTurn)
-            {
-                board.updateBoard(index, true);
-            }
-            else
-            {
-                board.updateBoard(index, false);
-            }
-            winner = board.checkWin();
-            if (winner != 0) {
-                gameOver = true;
-            }
-            playerTurn = false;
+            board.updateBoard(index, this.isWhiteTurn);
+            this.view.updateView(this.board, this.isWhiteTurn);
             return true;
         }
         return false;
 
     }
-    public void rotateBoard(int key, int rotate) {
-        board.updateRotaion(key , rotate);
-        byte winStatus = board.checkWin();
-        if (winStatus != 0) {
-            gameOver = true;
-        }
-        isBlackTurn = !isBlackTurn;
-        computerTurn();
+    public void playerRotateBoard(int key, int rotate) {
+        board.updateRotation(key , rotate == 1);
+        BoardStatus winStatus = board.checkWin();
+        isWhiteTurn = !isWhiteTurn;
+        this.view.updateView(this.board, this.isWhiteTurn);
+        this.computerTurn();
     }
     public void resetGame() {
         board.resetBoards();
-        isBlackTurn = true;
+        isPlayerBlack = true;
         gameOver = false;
     }
+
 }

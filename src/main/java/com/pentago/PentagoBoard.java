@@ -3,8 +3,8 @@ import com.pentago.CheckWin.IsColumnWin;
 import com.pentago.CheckWin.IsDiagonalWin;
 import com.pentago.CheckWin.isRowWin;
 import com.pentago.CheckWin.isWinningBoard;
-import com.pentago.ComputerMoves.ImmediateWinMove;
 
+import com.pentago.Enums.BoardStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,7 +14,7 @@ public class PentagoBoard {
     private long blackBoard;
     private long occupiedBoard;
     private isWinningBoard[] isWinningBoard;
-    private static final Logger logger = LoggerFactory.getLogger(ImmediateWinMove.class);
+    private static final Logger logger = LoggerFactory.getLogger(PentagoBoard.class);
 
     public PentagoBoard(){
         isWinningBoard column = new IsColumnWin();
@@ -72,49 +72,51 @@ public class PentagoBoard {
         tempBoard.setOccupiedBoard(getOccupiedBoard());
         return tempBoard;
     }
-    public Byte checkWin()
+    public BoardStatus checkWin()
     {
         if(isFullBoard(this.getOccupiedBoard()))
         {
-            return 3;
+            return BoardStatus.TIE;
         }
-        byte stat = 0;
+        BoardStatus stat = BoardStatus.RUNNING;
         for (isWinningBoard win_check: isWinningBoard){
             int win = win_check.checkWin(this.getBlackBoard());
             if (win != 0){
+                logger.debug("in checkwin board is \n{}", this.getBoardInStr());
                 logger.debug("black class {} result {}", win_check.getClass().getSimpleName(), win);
             }
             if (win == 1)
             {
-                stat = 1;
+                stat = BoardStatus.BLACK_WIN;
             }
         }
         for (isWinningBoard win_check: isWinningBoard){
             int win = win_check.checkWin(this.getWhiteBoard());
             if (win != 0){
+                logger.debug("in checkwin board is \n{}", this.getBoardInStr());
                 logger.debug("white class {} result {}", win_check.getClass().getSimpleName(), win);
             }
             
             if (win == 1)
             {
-                if(stat == 1)
+                if(stat.getValue() == BoardStatus.BLACK_WIN.getValue())
                 {
-                    return 3;
+                    return BoardStatus.TIE;
                 }
-                return 2;
+                return BoardStatus.WHITE_WIN;
             }
         }
         return stat;
     }
 
-    public void updateBoard(int index, boolean isBlack) {
+    public void updateBoard(int index, boolean iWhiteTurn) {
         long bitloc = 1L << index;
         occupiedBoard |= bitloc;
 
-        if (isBlack) {
-            blackBoard |= bitloc;
-        } else {
+        if (iWhiteTurn) {
             whiteBoard |= bitloc;
+        } else {
+            blackBoard |= bitloc;
         }
     }
     
@@ -186,10 +188,10 @@ public class PentagoBoard {
         board = setBit(board,inindixes[4],i2);
         return board;
     }
-    public void updateRotaion(int key, int rotation)
+    public void updateRotation(int small_board_index, boolean clockwise)
     {
         int[] indixes = new int[8];
-        switch (key) {
+        switch (small_board_index) {
             case 1:
                 indixes = new int[]{3, 4, 5, 9, 11, 15, 16, 17};
                 break;
@@ -203,14 +205,21 @@ public class PentagoBoard {
                 indixes = new int[]{21, 22, 23, 27, 29, 33, 34, 35};
                 break;
         }
-        if (rotation == 1) {
+        if (!clockwise) {
             whiteBoard = rotateRight(whiteBoard, indixes);
-            blackBoard=rotateRight(blackBoard, indixes);
+            blackBoard = rotateRight(blackBoard, indixes);
         } else {
             whiteBoard = rotateLeft(whiteBoard, indixes);
             blackBoard = rotateLeft(blackBoard, indixes);
         }
         occupiedBoard = whiteBoard | blackBoard;
+    }
+    public boolean isGameOver() {
+        return this.checkWin() != BoardStatus.RUNNING;
+    }
+
+    public BoardStatus getWinner() {
+        return this.checkWin();
     }
     public void resetBoards()
     {

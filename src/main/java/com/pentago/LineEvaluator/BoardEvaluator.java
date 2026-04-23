@@ -11,10 +11,10 @@ public class BoardEvaluator implements LineEvalutor{
     };
 
     @Override
-    public int evaluate(PentagoBoard board, boolean isBlack) {
+    public int evaluate(PentagoBoard board, boolean isPlayerBlack) {
         int score = 0;
         for (LineEvalutor evalutor: evalutors){
-            score += evalutor.evaluate(board, isBlack);
+            score += evalutor.evaluate(board, isPlayerBlack);
         }
         return score;
     }

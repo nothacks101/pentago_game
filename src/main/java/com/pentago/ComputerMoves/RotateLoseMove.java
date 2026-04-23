@@ -1,42 +1,68 @@
 package com.pentago.ComputerMoves;
 
+import com.pentago.Enums.BoardStatus;
+import com.pentago.LineEvaluator.BoardEvaluator;
 import com.pentago.PentagoBoard;
-import com.pentago.ComputerScripts.FindQuadrant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class RotateLoseMove implements ComputerMoves{
+public class RotateLoseMove implements ComputerMoves {
     private static final Logger logger = LoggerFactory.getLogger(RotateLoseMove.class);
-    private ImmediateThreatMove immediateThreatMove = new ImmediateThreatMove();
-    private FindQuadrant findQuadrant = new FindQuadrant();
 
-    public int getMovement(PentagoBoard board, boolean isBlack) {
-        logger.debug("in RotateLoseMove");
-        int[] right = {12,  6,  0, 15,  9,  3, 13,  7,  1, 16, 10,  4, 14,  8,  2, 17, 11,  5, 30, 24, 18, 33, 27, 21, 31, 25, 19, 34, 28, 22, 32, 26, 20, 35, 29, 23};
-        int[] left ={ 2,  8, 14,  5, 11, 17, 1,  7, 13,  4, 10, 16, 0,  6, 12,  3,  9, 15, 20, 26, 32, 23, 29, 35, 19, 25, 31, 22, 28, 34, 18, 24, 30, 21, 27, 33};
-        int lose_index = 0;
-        int index;
-        for (int quadrant = 1; quadrant <= 4; quadrant++) {
-            for (int rotation = 1; rotation <= 2; rotation++) {
-                PentagoBoard tempBoard = board.copyBoard();
-                tempBoard.updateRotaion(quadrant, rotation);
+    private final BoardEvaluator evaluator = new BoardEvaluator();
 
-                lose_index = this.immediateThreatMove.getMovement(tempBoard, isBlack);
+    public Move getMovement(PentagoBoard board, boolean isPlayerBlack) {
+        BoardStatus opponentWin = isPlayerBlack ? BoardStatus.BLACK_WIN : BoardStatus.WHITE_WIN;
 
-                if (lose_index != -1) {
-                    logger.debug("rotation is {} quardent is {}, loseindex is {}", rotation, quadrant, lose_index);
-                    if (rotation == 1) {
-                        index = left[lose_index];
-                    } else {
-                        index = right[lose_index];
+        Move bestMove = null;
+        int bestScore = Integer.MIN_VALUE;
+        boolean isUnderTreat = false;
+
+        for (int pos = 0; pos < 36; pos++) {
+            if (!board.checkLegal(pos)) continue;
+
+            for (int q = 1; q <= 4; q++) {
+                for (int cw = 0; cw <= 1; cw++) {
+
+                    PentagoBoard temp = board.copyBoard();
+                    temp.updateBoard(pos, isPlayerBlack);
+                    temp.updateRotation(q, cw == 1);
+
+                    boolean opponentCanWin = false;
+
+                    for (int oppPos = 0; oppPos < 36 && !opponentCanWin; oppPos++) {
+                        if (!temp.checkLegal(oppPos)) continue;
+
+                        for (int oq = 1; oq <= 4 && !opponentCanWin; oq++) {
+                            for (int ocw = 0; ocw <= 1; ocw++) {
+
+                                PentagoBoard opp = temp.copyBoard();
+                                opp.updateBoard(oppPos, !isPlayerBlack);
+                                opp.updateRotation(oq, ocw == 1);
+
+                                if (opp.checkWin() == opponentWin) {
+                                    opponentCanWin = true;
+                                    isUnderTreat = true;
+                                }
+                            }
+                        }
                     }
-                    if (findQuadrant.find(index) != quadrant) {
-                        return lose_index;
+
+                    if (!opponentCanWin) {
+                        int score = evaluator.evaluate(temp, isPlayerBlack);
+
+                        if (score > bestScore) {
+                            bestScore = score;
+                            bestMove = new Move(pos, q, cw == 1);
+                        }
                     }
-                    return index;
                 }
             }
         }
-        return -1;
+        if (isUnderTreat){
+            return bestMove;
+        } else {
+            return null;
+        }
     }
 }
