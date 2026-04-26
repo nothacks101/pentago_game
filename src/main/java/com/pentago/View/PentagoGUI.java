@@ -24,37 +24,47 @@ public class PentagoGUI extends JFrame implements GameView {
         this.frame = new JFrame("Pentago Game");
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.frame.setSize(600, 700);
+    }
 
-        this.boardPanel = new JPanel();
-        this.boardPanel.setLayout(new GridLayout(6, 6));
+    public void initBoardView() {
+        this.boardPanel = new JPanel(new GridLayout(2, 2));
         this.buttons = new JButton[6][6];
-
+        JPanel[] quadrants = new JPanel[4];
+        Color[] colors = {
+                Color.RED, Color.BLUE, Color.GREEN, Color.ORANGE
+        };
+        for (int i = 0; i < 4; i++) {
+            quadrants[i] = new JPanel(new GridLayout(3, 3));
+            quadrants[i].setBorder(BorderFactory.createLineBorder(colors[i], 3));
+        }
         for (int row = 0; row < 6; row++) {
             for (int col = 0; col < 6; col++) {
                 final int inner_row = row;
                 final int inner_col = col;
-                buttons[row][col] = new JButton();
-                buttons[row][col].setFont(new Font("Arial", Font.PLAIN, 40));
-                buttons[row][col].addActionListener(e -> {
+                JButton btn = new JButton();
+                btn.setFont(new Font("Arial", Font.PLAIN, 40));
+                btn.addActionListener(e -> {
                     if (controller.playerMakeMove(inner_row, inner_col)) {
                         Rotation r = rotateBoardPrompt();
                         controller.playerRotateBoard(r.quadrant, r.clockwise ? 1 : 0);
                     }
                 });
-                boardPanel.add(buttons[row][col]);
+                buttons[row][col] = btn;
+                int quadrantIndex = (row / 3) * 2 + (col / 3);
+                quadrants[quadrantIndex].add(btn);
             }
         }
-
+        for (int i = 0; i < 4; i++) {
+            boardPanel.add(quadrants[i]);
+        }
+        boardPanel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
         this.statusLabel = new JLabel("Current turn: White");
         this.statusLabel.setFont(new Font("Arial", Font.PLAIN, 20));
         this.statusLabel.setHorizontalAlignment(SwingConstants.CENTER);
-
         this.frame.add(statusLabel, BorderLayout.NORTH);
         this.frame.add(boardPanel, BorderLayout.CENTER);
         this.frame.setVisible(true);
     }
-
-
     private Rotation rotateBoardPrompt() {
         boolean isValid = false;
         int quadrant = 0;
@@ -81,8 +91,6 @@ public class PentagoGUI extends JFrame implements GameView {
         }
         return new Rotation(quadrant, clockwise == 2);
     }
-
-
 
     public void updateView() {
         PentagoBoard board = this.controller.getBoard();

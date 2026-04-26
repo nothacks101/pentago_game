@@ -24,6 +24,7 @@ public class Main {
         PentagoGameController controller =
                 new PentagoGameController(true, board, computer, null);
         PentagoGUI gui = new PentagoGUI(controller);
+        gui.initBoardView();
         controller.setView(gui);
         controller.startGame();
     }
