@@ -6,8 +6,6 @@ import com.pentago.PentagoGameController;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class PentagoGUI extends JFrame implements GameView {
     private JFrame frame;
@@ -86,7 +84,9 @@ public class PentagoGUI extends JFrame implements GameView {
 
 
 
-    public void updateView(PentagoBoard board, boolean isWhiteTurn) {
+    public void updateView() {
+        PentagoBoard board = this.controller.getBoard();
+        boolean isWhiteTurn = this.controller.getIsWhiteTurn();
         long whiteBoard = board.getWhiteBoard();
         long blackBoard = board.getBlackBoard();
 

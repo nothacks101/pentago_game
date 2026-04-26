@@ -17,6 +17,14 @@ public class PentagoGameController {
     private boolean gameOver;
     private GameView view;
 
+    public PentagoBoard getBoard(){
+        return this.board;
+    }
+
+    public boolean getIsWhiteTurn(){
+        return this.isWhiteTurn;
+    }
+
     public void setView(GameView view){
         this.view = view;
     }
@@ -30,7 +38,7 @@ public class PentagoGameController {
         this.view = view;
     }
     public void startGame() {
-        view.updateView(board, isWhiteTurn);
+        view.updateView();
         if (isPlayerBlack == isWhiteTurn) {
             computerTurn();
         }
@@ -49,7 +57,7 @@ public class PentagoGameController {
                 this.gameOver = true;
             }
             this.isWhiteTurn = !this.isWhiteTurn;
-            this.view.updateView(this.board, this.isWhiteTurn);
+            this.view.updateView();
         }
     }
 
@@ -66,7 +74,7 @@ public class PentagoGameController {
                 return false;
             }
             board.updateBoard(index, this.isWhiteTurn);
-            this.view.updateView(this.board, this.isWhiteTurn);
+            this.view.updateView();
             return true;
         }
         return false;
@@ -76,7 +84,7 @@ public class PentagoGameController {
         board.updateRotation(key , rotate == 1);
         BoardStatus winStatus = board.checkWin();
         isWhiteTurn = !isWhiteTurn;
-        this.view.updateView(this.board, this.isWhiteTurn);
+        this.view.updateView();
         this.computerTurn();
     }
     public void resetGame() {
