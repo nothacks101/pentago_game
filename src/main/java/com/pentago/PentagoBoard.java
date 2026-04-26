@@ -1,8 +1,8 @@
 package com.pentago;
-import com.pentago.CheckWin.IsColumnWin;
-import com.pentago.CheckWin.IsDiagonalWin;
-import com.pentago.CheckWin.isRowWin;
-import com.pentago.CheckWin.isWinningBoard;
+import com.pentago.CheckWin.ColumnWin;
+import com.pentago.CheckWin.DiagonalWin;
+import com.pentago.CheckWin.RowWin;
+import com.pentago.CheckWin.WinCheck;
 
 import com.pentago.Enums.BoardStatus;
 import org.slf4j.Logger;
@@ -13,15 +13,15 @@ public class PentagoBoard {
     private long whiteBoard;
     private long blackBoard;
     private long occupiedBoard;
-    private isWinningBoard[] isWinningBoard;
+    private WinCheck[] winningChecks;
     private static final Logger logger = LoggerFactory.getLogger(PentagoBoard.class);
 
     public PentagoBoard(){
-        isWinningBoard column = new IsColumnWin();
-        isWinningBoard row = new isRowWin();
-        isWinningBoard diagonal = new IsDiagonalWin();
-        isWinningBoard[] arr = {column, row, diagonal};
-        this.isWinningBoard = arr;
+        WinCheck column = new ColumnWin();
+        WinCheck row = new RowWin();
+        WinCheck diagonal = new DiagonalWin();
+        WinCheck[] arr = {column, row, diagonal};
+        this.winningChecks = arr;
     }
 
 
@@ -78,35 +78,20 @@ public class PentagoBoard {
         {
             return BoardStatus.TIE;
         }
-        BoardStatus stat = BoardStatus.RUNNING;
-        for (isWinningBoard win_check: isWinningBoard){
-            int win = win_check.checkWin(this.getBlackBoard());
-            if (win != 0){
-                logger.debug("in checkwin board is \n{}", this.getBoardInStr());
-                logger.debug("black class {} result {}", win_check.getClass().getSimpleName(), win);
+        BoardStatus result = BoardStatus.RUNNING;
+        for (WinCheck winCheck: this.winningChecks){
+            BoardStatus winResult = winCheck.checkWin(this);
+            if (winResult == BoardStatus.TIE){
+                return winResult;
             }
-            if (win == 1)
-            {
-                stat = BoardStatus.BLACK_WIN;
+            if (winResult != BoardStatus.RUNNING && result == BoardStatus.RUNNING){
+                result = winResult;
             }
-        }
-        for (isWinningBoard win_check: isWinningBoard){
-            int win = win_check.checkWin(this.getWhiteBoard());
-            if (win != 0){
-                logger.debug("in checkwin board is \n{}", this.getBoardInStr());
-                logger.debug("white class {} result {}", win_check.getClass().getSimpleName(), win);
-            }
-            
-            if (win == 1)
-            {
-                if(stat.getValue() == BoardStatus.BLACK_WIN.getValue())
-                {
-                    return BoardStatus.TIE;
-                }
-                return BoardStatus.WHITE_WIN;
+            if (winResult != BoardStatus.RUNNING && winResult != result){
+                return BoardStatus.TIE;
             }
         }
-        return stat;
+        return result;
     }
 
     public void updateBoard(int index, boolean iWhiteTurn) {

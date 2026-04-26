@@ -1,7 +1,5 @@
 package com.pentago;
 
-
-import com.pentago.CheckWin.IsDiagonalWin;
 import com.pentago.ComputerMoves.Move;
 import com.pentago.Enums.BoardStatus;
 import com.pentago.View.GameView;
@@ -9,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class PentagoGameController {
-    private static final Logger logger = LoggerFactory.getLogger(IsDiagonalWin.class);
+    private static final Logger logger = LoggerFactory.getLogger(PentagoGameController.class);
     private PentagoBoard board;
     private PentagoComp computer;
     private boolean isPlayerBlack;
