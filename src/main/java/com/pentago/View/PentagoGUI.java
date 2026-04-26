@@ -71,7 +71,8 @@ public class PentagoGUI extends JFrame implements GameView {
         int clockwise = 0;
         while (!isValid){
            try {
-               quadrant = Integer.parseInt(JOptionPane.showInputDialog(frame, "Enter quadrant to rotate (1-4):"));
+               quadrant = Integer.parseInt(JOptionPane.showInputDialog(frame,
+                       "Enter quadrant to rotate blue-red-green-yellow with 1-4:"));
                if (1 <= quadrant & quadrant <= 4){
                    isValid = true;
                }
