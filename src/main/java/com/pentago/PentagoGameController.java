@@ -59,12 +59,8 @@ public class PentagoGameController {
         }
     }
 
-
-
-
     public boolean playerMakeMove(int row, int col)
     {
-        logger.debug("here 1");
         if(isPlayerBlack == !isWhiteTurn & !gameOver)
         {
             int index = row * 6 + col;
@@ -76,7 +72,6 @@ public class PentagoGameController {
             return true;
         }
         return false;
-
     }
     public void playerRotateBoard(int key, int rotate) {
         board.updateRotation(key , rotate == 1);

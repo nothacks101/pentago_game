@@ -20,8 +20,7 @@ public class PentagoBoard {
         WinCheck column = new ColumnWin();
         WinCheck row = new RowWin();
         WinCheck diagonal = new DiagonalWin();
-        WinCheck[] arr = {column, row, diagonal};
-        this.winningChecks = arr;
+        this.winningChecks = new WinCheck[]{column, row, diagonal};
     }
 
 
@@ -59,11 +58,7 @@ public class PentagoBoard {
     }
     public boolean checkLegal(int index)
     {
-        if(((occupiedBoard >> index) & 1) == 1)
-        {
-            return false;
-        }
-        return true;
+        return ((occupiedBoard >> index) & 1) != 1;
     }
     public PentagoBoard copyBoard(){
         PentagoBoard tempBoard = new PentagoBoard();
@@ -76,18 +71,22 @@ public class PentagoBoard {
     {
         if(isFullBoard(this.getOccupiedBoard()))
         {
+            logger.debug("board is full, its a tie");
             return BoardStatus.TIE;
         }
         BoardStatus result = BoardStatus.RUNNING;
         for (WinCheck winCheck: this.winningChecks){
             BoardStatus winResult = winCheck.checkWin(this);
             if (winResult == BoardStatus.TIE){
+                logger.debug("tie result was reached from checker");
                 return winResult;
             }
             if (winResult != BoardStatus.RUNNING && result == BoardStatus.RUNNING){
+                logger.debug("{} result was reached from checker", winResult);
                 result = winResult;
             }
             if (winResult != BoardStatus.RUNNING && winResult != result){
+                logger.debug("2 differ results from masks results in tie");
                 return BoardStatus.TIE;
             }
         }
@@ -110,10 +109,10 @@ public class PentagoBoard {
     }
     public long rotateRight(Long board,int[] inindixes)
     {
-        Byte i1 = (byte) ((board >> inindixes[0]) & 1L);
-        Byte i2 = (byte) ((board >> inindixes[1]) & 1L);
-        Byte i3 = (byte) ((board >> inindixes[6]) & 1L);
-        Byte i4 = (byte) ((board  >> inindixes[7]) & 1L);
+        byte i1 = (byte) ((board >> inindixes[0]) & 1L);
+        byte i2 = (byte) ((board >> inindixes[1]) & 1L);
+        byte i3 = (byte) ((board >> inindixes[6]) & 1L);
+        byte i4 = (byte) ((board  >> inindixes[7]) & 1L);
         board = setBit(board,inindixes[0],(byte)((board >> inindixes[2]) & 1L));
         board = setBit(board,inindixes[1],(byte)((board >> inindixes[4]) & 1L));
         board = setBit(board,inindixes[6],(byte)((board >> inindixes[3]) & 1L));
@@ -159,10 +158,10 @@ public class PentagoBoard {
     }
     public long rotateLeft(Long board,int[] inindixes)
     {
-        Byte i1 = (byte) ((board >> inindixes[0]) & 1L);
-        Byte i2 = (byte) ((board >> inindixes[1]) & 1L);
-        Byte i3 = (byte) ((board >> inindixes[6]) & 1L);
-        Byte i4 = (byte) ((board >> inindixes[7]) & 1L);
+        byte i1 = (byte) ((board >> inindixes[0]) & 1L);
+        byte i2 = (byte) ((board >> inindixes[1]) & 1L);
+        byte i3 = (byte) ((board >> inindixes[6]) & 1L);
+        byte i4 = (byte) ((board >> inindixes[7]) & 1L);
         board = setBit(board,inindixes[0],(byte)((board >> inindixes[5]) & 1L));
         board = setBit(board,inindixes[1],(byte)((board >> inindixes[3]) & 1L));
         board = setBit(board,inindixes[6],(byte)((board >> inindixes[4]) & 1L));
